@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  api:
+    image: faisalk97/video-api:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - videos:/data
+
+  worker:
+    image: faisalk97/video-worker:latest
+    volumes:
+      - videos:/data
+
+  queue:
+    image: redis:alpine
+
+  frontend:
+    image: faisalk97/video-frontend:latest
+    ports:
+      - "3000:80"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+
+volumes:
+  videos:
+
